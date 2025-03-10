@@ -445,6 +445,7 @@ public class RobotContainer {
     driver
         .b()
         .and(isAlgaeSetpoint)
+        .and(() -> !coralEndEffector.hasCoral())
         .whileTrue(
             ReefAlign.rotateToNearestReefTag(drivetrain, driverForward, driverStrafe)
                 .alongWith(
