@@ -115,6 +115,32 @@ public class DrivetrainReal extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
         });
   }
 
+  public Command driveSlowMode(
+      DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotation) {
+    return run(
+        () -> {
+          var speeds =
+              ChassisSpeeds.discretize(
+                  translationX.getAsDouble(),
+                  translationY.getAsDouble(),
+                  rotation.getAsDouble(),
+                  DrivetrainConstants.kLoopDt.in(Seconds));
+
+          // x braking
+          // if(Math.abs(newTranslationX) < DriveConstants.kDriveDeadband &&
+          // Math.abs(newTranslationY) < DriveConstants.kDriveDeadband &&
+          // Math.abs(newRotation) < DriveConstants.kRotationDeadband){
+          // setControl(new SwerveRequest.SwerveDriveBrake())};
+
+          setControl(
+              fieldCentricRequest
+                  .withVelocityX(speeds.vxMetersPerSecond * 0.5)
+                  .withVelocityY(speeds.vyMetersPerSecond * 0.5)
+                  .withRotationalRate(speeds.omegaRadiansPerSecond * 0.5)
+                  .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective));
+        });
+  }
+
   @Override
   public Command teleopDriveFixedHeading(
       DoubleSupplier translationX,

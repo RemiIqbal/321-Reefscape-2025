@@ -138,6 +138,9 @@ public interface SwerveDrive extends Subsystem {
   Command teleopDrive(
       DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotation);
 
+  Command driveSlowMode(
+      DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotation);
+
   Command teleopDriveFixedHeading(
       DoubleSupplier translationX,
       DoubleSupplier translationY,

@@ -106,6 +106,20 @@ public class DrivetrainSim implements SwerveDrive {
         });
   }
 
+  public Command driveSlowMode(
+      DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotation) {
+    return run(
+        () -> {
+          ChassisSpeeds speeds =
+              flipFieldSpeeds(
+                  new ChassisSpeeds(
+                      0.5 * translationX.getAsDouble(),
+                      0.5 * translationY.getAsDouble(),
+                      0.5 * rotation.getAsDouble()));
+          simulatedDrive.runChassisSpeeds(speeds, new Translation2d(), true, false);
+        });
+  }
+
   @Override
   public Command teleopDriveFixedHeading(
       DoubleSupplier translationX,

@@ -297,7 +297,18 @@ public class RobotContainer {
   private void configureBindings() {
     // driver controls
     // score coral / flip off algae
-    driver.y().toggleOnTrue(climber.goToAngle(() -> ClimberConstants.kClimbPrepAngle));
+    driver
+        .y()
+        .toggleOnTrue(
+            climber
+                .goToAngle(() -> ClimberConstants.kClimbPrepAngle)
+                .alongWith(
+                    drivetrain
+                        .driveSlowMode(driverForward, driverStrafe, driverTurn)
+                        .onlyIf(
+                            () ->
+                                RobotConstants.kBargeZone.contains(
+                                    drivetrain.getPose().getTranslation()))));
     driver.a().onTrue(climber.climb());
 
     // --- CORAL AUTOMATED CONTROLS ---
